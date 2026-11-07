@@ -1,0 +1,12 @@
+{
+  "appId": "com.marginalia.notes",
+  "appName": "Marginalia",
+  "webDir": "www",
+  "backgroundColor": "#0c0c0e",
+  "android": {
+    "adjustMarginsForEdgeToEdge": "auto"
+  },
+  "plugins": {
+    "CapacitorHttp": { "enabled": true }
+  }
+}

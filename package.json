@@ -1,0 +1,21 @@
+{
+  "name": "marginalia-android",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Marginalia for Android: study notes from YouTube lectures, made on the phone with Gemini.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node test/run.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/app": "^7.0.0",
+    "@capacitor/browser": "^7.0.0",
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/filesystem": "^7.0.0",
+    "@capacitor/share": "^7.0.0",
+    "esbuild": "^0.25.0"
+  }
+}
