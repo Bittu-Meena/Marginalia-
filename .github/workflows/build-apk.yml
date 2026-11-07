@@ -1,0 +1,61 @@
+name: Build Android APK
+
+# Runs automatically when you push changes, or manually from the Actions tab.
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install
+        run: npm install
+
+      - name: Check the logic
+        run: npm test
+
+      - name: Build the web part
+        run: npm run build
+
+      - name: Create the Android project
+        run: |
+          npx cap add android
+          npx cap sync android
+
+      - name: Build the APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Name the APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk Marginalia.apk
+
+      - name: Keep the APK as a download on this run
+        uses: actions/upload-artifact@v6
+        with:
+          name: Marginalia-apk
+          path: Marginalia.apk
+
+      - name: Publish the APK on the Releases page
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "build-${{ github.run_number }}" Marginalia.apk \
+            --title "Marginalia build ${{ github.run_number }}" \
+            --notes "Install Marginalia.apk on your Android phone."
